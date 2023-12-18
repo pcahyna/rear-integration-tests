@@ -81,6 +81,11 @@ rlJournalStart
             rlAssertRpm --all
         rlPhaseEnd
 
+	rlPhaseStartSetup "Is linux-firmware installed?"
+            rlAssertRpm linux-firmware
+        rlPhaseEnd
+
+
         # Configure ReaR for ISO output.
         # Backup will be embedded in the ISO. Since the ISO is not written/burned
         # to any disk, but merely loaded into RAM by the bootloader (memdisk - see below),
@@ -122,6 +127,10 @@ ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
             if ! rlGetPhaseState; then
                 rlDie "FATAL ERROR: $REAR_BIN -d mkbackup failed. See rear-mkbackup.log for details."
             fi
+        rlPhaseEnd
+
+	rlPhaseStartSetup "Find huge files in ReaR rootfs"
+            rlRun "du -amt70M  $TMPDIR/rear.*/rootfs/ 2>/dev/null"
         rlPhaseEnd
 
         rlPhaseStartSetup "Create dummy file"
