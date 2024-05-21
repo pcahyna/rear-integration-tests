@@ -29,7 +29,7 @@
 # Include Beaker environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
-PACKAGES="rear syslinux-extlinux syslinux-nonlinux xorriso"
+PACKAGES="rear syslinux-extlinux syslinux-nonlinux xorriso grub2-pc grub2-efi-x64"
 REAR_LABEL="${REAR_LABEL:-REAR-000}"
 REAR_LABEL_PATH="/dev/disk/by-label/$REAR_LABEL"
 HOSTNAME_SHORT="$(hostname --short)"
@@ -77,6 +77,12 @@ REAR_ISO_OUTPUT="/var/lib/rear/output"
 rlJournalStart
     if [ "$REBOOTCOUNT" -eq 0 ]; then
         # Fresh start
+        rlPhaseStartSetup "Environment information"
+            rlRun "efibootmgr -v"
+            rlRun "rpm -qf /etc/sysconfig/bootloader"
+            rlRun "cat /etc/sysconfig/bootloader"
+        rlPhaseEnd
+
         rlPhaseStartSetup "Assert that all required RPMs are installed"
             rlAssertRpm --all
         rlPhaseEnd
