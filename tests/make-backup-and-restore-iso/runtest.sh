@@ -85,6 +85,7 @@ rlJournalStart
             rlFileSubmit /boot/grub2/grub.cfg
             rlRun "cat /sys/class/tty/console/active"
             rlRun "cat /proc/consoles"
+            rlRun "cat /proc/cmdline"
         rlPhaseEnd
 
         rlPhaseStartSetup "Assert that all required RPMs are installed"
