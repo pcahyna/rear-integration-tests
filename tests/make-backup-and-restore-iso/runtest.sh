@@ -78,10 +78,10 @@ rlJournalStart
     if [ "$REBOOTCOUNT" -eq 0 ]; then
         # Fresh start
         rlPhaseStartSetup "Environment information"
-            rlRun "efibootmgr -v"
-            rlRun "rpm -qf /etc/sysconfig/bootloader"
-            rlRun "cat /etc/sysconfig/bootloader"
-            rlRun "ls -l /etc/sysconfig/bootloader"
+            rlRun "efibootmgr -v" 0,2
+            rlRun "rpm -qf /etc/sysconfig/bootloader" 0,1
+            rlRun "cat /etc/sysconfig/bootloader" 0,1
+            rlRun "ls -l /etc/sysconfig/bootloader" 0,2
             rlFileSubmit /boot/grub2/grub.cfg
             rlRun "cat /sys/class/tty/console/active"
             rlRun "cat /proc/consoles"
