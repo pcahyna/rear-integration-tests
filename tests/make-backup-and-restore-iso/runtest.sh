@@ -81,6 +81,10 @@ rlJournalStart
             rlRun "efibootmgr -v"
             rlRun "rpm -qf /etc/sysconfig/bootloader"
             rlRun "cat /etc/sysconfig/bootloader"
+            rlRun "ls -l /etc/sysconfig/bootloader"
+            rlFileSubmit /boot/grub2/grub.cfg
+            rlRun "cat /sys/class/tty/console/active"
+            rlRun "cat /proc/consoles"
         rlPhaseEnd
 
         rlPhaseStartSetup "Assert that all required RPMs are installed"
@@ -167,6 +171,7 @@ linux16 (\$bootfs)$BOOT_PATH/memdisk iso raw
 initrd16 (\$rootfs)$ROOT_PATH/$REAR_ISO_OUTPUT/rear-rescue-only.iso
 }
 set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
+            rlFileSubmit /boot/grub2/grub.cfg grub.cfg-new
         rlPhaseEnd
 
         if test "$TMT_REBOOT_COUNT"; then
