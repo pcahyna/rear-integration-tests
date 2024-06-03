@@ -92,9 +92,12 @@ rlJournalStart
             rlAssertRpm --all
         rlPhaseEnd
 
-        rlJournalPrintText
-        rlJournalEnd
-        exit 0
+        if test "$TMT_REBOOT_COUNT"; then
+            rlRun "tmt-reboot -t 1200" 0 "Reboot the machine"
+        else
+            # not running from TMT
+            rhts-reboot
+        fi
 
         # Configure ReaR for ISO output.
         # Backup will be embedded in the ISO. Since the ISO is not written/burned
@@ -186,6 +189,10 @@ set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
             rhts-reboot
         fi
     elif [ "$REBOOTCOUNT" -eq 1 ]; then
+        rlJournalPrintText
+        rlJournalEnd
+        exit 0
+
         # ReaR hopefully recovered the OS
         rlPhaseStartTest "Assert that the recovery was successful"
             rlAssertNotExists $REAR_HOME_DIRECTORY/recovery_will_remove_me
