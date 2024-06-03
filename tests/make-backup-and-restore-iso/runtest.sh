@@ -92,6 +92,10 @@ rlJournalStart
             rlAssertRpm --all
         rlPhaseEnd
 
+        rlJournalPrintText
+        rlJournalEnd
+        exit 0
+
         # Configure ReaR for ISO output.
         # Backup will be embedded in the ISO. Since the ISO is not written/burned
         # to any disk, but merely loaded into RAM by the bootloader (memdisk - see below),
