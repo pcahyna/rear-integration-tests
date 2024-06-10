@@ -89,7 +89,7 @@ rlJournalStart
         rlPhaseStartTest
             rlRun "grubby --update-kernel=ALL --args='console=tty0 console=ttyS0,115200n8'"
             rlRun "grubby --update-kernel=ALL --remove-args='quiet'"
-            rlRun "sed -e '/TERMINAL/s/console/console serial/ -i /etc/default/grub"
+            rlRun "sed -e '/TERMINAL/s/console/console serial/' -i /etc/default/grub"
             rlRun "grub2-mkconfig -o /boot/grub2/grub.cfg"
         rlPhaseEnd
 

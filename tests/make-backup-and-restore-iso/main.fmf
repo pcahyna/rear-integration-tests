@@ -7,4 +7,7 @@ require:
     - xorriso
     - dosfstools
 
+check:
+    - how: dmesg
+
 duration: 15m
