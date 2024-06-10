@@ -79,6 +79,7 @@ rlJournalStart
         # Fresh start
         rlPhaseStartSetup "Environment information"
             rlRun "ls -l /etc/sysconfig/bootloader" 0,2
+            rlRun "cat /etc/default/grub"
             rlFileSubmit /boot/grub2/grub.cfg
             rlRun "cat /sys/class/tty/console/active"
             rlRun "cat /proc/consoles"
@@ -198,6 +199,7 @@ set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
         # after reboot
         rlPhaseStartSetup "Environment information"
             rlRun "ls -l /etc/sysconfig/bootloader" 0,2
+            rlRun "cat /etc/default/grub"
             rlFileSubmit /boot/grub2/grub.cfg grub.cfg-new
             rlRun "cat /sys/class/tty/console/active"
             rlRun "cat /proc/consoles"
