@@ -78,14 +78,19 @@ rlJournalStart
     if [ "$REBOOTCOUNT" -eq 0 ]; then
         # Fresh start
         rlPhaseStartSetup "Environment information"
-            rlRun "efibootmgr -v" 0,2
-            rlRun "rpm -qf /etc/sysconfig/bootloader" 0,1
-            rlRun "cat /etc/sysconfig/bootloader" 0,1
             rlRun "ls -l /etc/sysconfig/bootloader" 0,2
             rlFileSubmit /boot/grub2/grub.cfg
             rlRun "cat /sys/class/tty/console/active"
             rlRun "cat /proc/consoles"
             rlRun "cat /proc/cmdline"
+            rlRun "stty -a -F /dev/ttyS0"
+        rlPhaseEnd
+
+        rlPhaseStartTest
+            rlRun "grubby --update-kernel=ALL --args='console=tty0 console=ttyS0,115200n8'"
+            rlRun "grubby --update-kernel=ALL --remove-args='quiet'"
+            rlRun "sed -e '/TERMINAL/s/console/console serial/ -i /etc/default/grub"
+            rlRun "grub2-mkconfig -o /boot/grub2/grub.cfg"
         rlPhaseEnd
 
         rlPhaseStartSetup "Assert that all required RPMs are installed"
@@ -189,6 +194,17 @@ set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
             rhts-reboot
         fi
     elif [ "$REBOOTCOUNT" -eq 1 ]; then
+
+        # after reboot
+        rlPhaseStartSetup "Environment information"
+            rlRun "ls -l /etc/sysconfig/bootloader" 0,2
+            rlFileSubmit /boot/grub2/grub.cfg grub.cfg-new
+            rlRun "cat /sys/class/tty/console/active"
+            rlRun "cat /proc/consoles"
+            rlRun "cat /proc/cmdline"
+            rlRun "stty -a -F /dev/ttyS0"
+        rlPhaseEnd
+
         rlJournalPrintText
         rlJournalEnd
         exit 0
