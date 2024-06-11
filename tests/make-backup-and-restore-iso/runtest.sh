@@ -209,6 +209,7 @@ set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
 
         rlJournalPrintText
         rlJournalEnd
+        sleep 600
         exit 0
 
         # ReaR hopefully recovered the OS
