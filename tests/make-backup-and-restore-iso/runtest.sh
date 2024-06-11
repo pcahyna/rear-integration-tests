@@ -126,6 +126,7 @@ ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
             rlRun -l "$REAR_BIN -d mkbackup" \
                 0 "Creating backup to $REAR_ISO_OUTPUT"
             rlFileSubmit "$REAR_ISO_FHSDIR/rear/layout/disklayout.conf" "disklayout.conf"
+            rlFileSubmit "$REAR_ISO_FHSDIR/rear/recovery/mountpoint_device" "mountpoint_device"
             check_and_submit_rear_log mkbackup
             if ! rlGetPhaseState; then
                 rlDie "FATAL ERROR: $REAR_BIN -d mkbackup failed. See rear-mkbackup.log for details."
