@@ -108,7 +108,7 @@ OUTPUT_URL=null
 USER_INPUT_TIMEOUT=10
 # 4gb backup limit
 PRE_RECOVERY_SCRIPT=(\"mkdir /tmp/mnt;\" \"mount $OUTPUT_DISK ${OUTPUT_SUBVOL:+-o subvol=${OUTPUT_SUBVOL}} /tmp/mnt/;\" \"modprobe brd rd_nr=1 rd_size=2097152;\" \"dd if=/tmp/mnt/$OUTPUT_FS_PATH/rear-$HOSTNAME_SHORT.iso of=/dev/ram0;\" \"umount /tmp/mnt/;\" \"sleep 300;\")
-POST_RECOVERY_SCRIPT=(\"ls -l /mnt/local/var /mnt/local/var/ARTIFACTS > /dev/console;\" \"sleep 600;\")
+POST_RECOVERY_SCRIPT=(\"ls -l /mnt/local/var /mnt/local/var/ARTIFACTS > /dev/console;\" \"sleep 900;\")
 ISO_FILE_SIZE_LIMIT=4294967296
 ISO_DEFAULT=automatic
 ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
@@ -171,7 +171,7 @@ set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
         rlPhaseEnd
 
         if test "$TMT_REBOOT_COUNT"; then
-            rlRun "tmt-reboot -t 1200" 0 "Reboot the machine"
+            rlRun "tmt-reboot -t 1800" 0 "Reboot the machine"
         else
             # not running from TMT
             rhts-reboot
