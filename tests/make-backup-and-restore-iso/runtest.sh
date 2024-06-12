@@ -110,6 +110,7 @@ USER_INPUT_TIMEOUT=10
 PRE_RECOVERY_SCRIPT=(\"mkdir /tmp/mnt;\" \"mount $OUTPUT_DISK ${OUTPUT_SUBVOL:+-o subvol=${OUTPUT_SUBVOL}} /tmp/mnt/;\" \"modprobe brd rd_nr=1 rd_size=2097152;\" \"dd if=/tmp/mnt/$OUTPUT_FS_PATH/rear-$HOSTNAME_SHORT.iso of=/dev/ram0;\" \"umount /tmp/mnt/;\")
 POST_RECOVERY_SCRIPT=(\"ls -l /mnt/local/var /mnt/local/var/ARTIFACTS > /dev/console 2>&1;\" \"tail /var/lib/rear/restore/recover.backup.*.restore.log > /dev/ttyS0 2>&1;\" \"sleep 600;\")
 ISO_FILE_SIZE_LIMIT=4294967296
+POST_BACKUP_SCRIPT=( 'tar tzvf \$TMPDIR/isofs/backup/backup.tar.gz > \$HOME/tarlist.log 2>&1;' 'cp \$TMPDIR/isofs/backup/backup.log \$HOME;')
 BACKUP_INTEGRITY_CHECK=yes
 ISO_DEFAULT=automatic
 ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
@@ -128,6 +129,8 @@ ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
                 0 "Creating backup to $REAR_ISO_OUTPUT"
             rlFileSubmit "$REAR_ISO_FHSDIR/rear/layout/disklayout.conf" "disklayout.conf"
             rlFileSubmit "$REAR_ISO_FHSDIR/rear/recovery/mountpoint_device" "mountpoint_device"
+            rlFileSubmit "$HOME/tarlist.log" tarlist.log
+            rlFileSubmit "$HOME/backup.log" backup.log
             check_and_submit_rear_log mkbackup
             if ! rlGetPhaseState; then
                 rlDie "FATAL ERROR: $REAR_BIN -d mkbackup failed. See rear-mkbackup.log for details."
