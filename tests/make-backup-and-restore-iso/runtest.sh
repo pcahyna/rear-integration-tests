@@ -121,6 +121,7 @@ ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
         rlPhaseStartTest
             rlRun -l "lsblk | tee $REAR_HOME_DIRECTORY/drive_layout.old" 0 "Store lsblk output in recovery image"
             rlAssertExists $REAR_HOME_DIRECTORY/drive_layout.old
+            rlRun "ls -lR /home"
         rlPhaseEnd
 
         rlPhaseStartTest "Run rear mkbackup"
@@ -196,6 +197,8 @@ set default=\"ReaR-recover\"' >> /boot/grub2/grub.cfg" 0 "Setup GRUB"
                 rlRun -l "diff -u $REAR_HOME_DIRECTORY/drive_layout.{old,new}" \
                     1 "Diff drive layout changes"
             fi
+
+            rlRun "ls -lR /home"
 
             check_and_submit_rear_log recover
         rlPhaseEnd
