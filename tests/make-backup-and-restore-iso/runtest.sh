@@ -108,7 +108,7 @@ OUTPUT_URL=null
 USER_INPUT_TIMEOUT=10
 # 4gb backup limit
 PRE_RECOVERY_SCRIPT=(\"mkdir /tmp/mnt;\" \"mount $OUTPUT_DISK ${OUTPUT_SUBVOL:+-o subvol=${OUTPUT_SUBVOL}} /tmp/mnt/;\" \"modprobe brd rd_nr=1 rd_size=2097152;\" \"dd if=/tmp/mnt/$OUTPUT_FS_PATH/rear-$HOSTNAME_SHORT.iso of=/dev/ram0;\" \"umount /tmp/mnt/;\")
-POST_RECOVERY_SCRIPT=(\"ls -R /mnt/local/$(dirname $TMT_PLAN_DATA )/discover > /dev/console 2>&1;\" \"tail /var/lib/rear/restore/recover.backup.*.restore.log > /dev/ttyS0 2>&1;\" \"sleep 600;\")
+POST_RECOVERY_SCRIPT=(\"ls -R /mnt/local/$(dirname $TMT_PLAN_DATA )/discover > /dev/console 2>&1;\" \"tail /var/lib/rear/restore/recover.backup.*.restore.log > /dev/ttyS0 2>&1;\" \"findmnt > /dev/ttyS0 2>&1;\" \"mount > /dev/ttyS0 2>&1;\" \"sleep 600;\")
 ISO_FILE_SIZE_LIMIT=4294967296
 POST_BACKUP_SCRIPT=( \"tar tzvf \\\$TMPDIR/isofs/backup/backup.tar.gz > \\\$HOME/tarlist.log 2>&1;\" \"cp \\\$TMPDIR/isofs/backup/backup.log \\\$HOME;\")
 BACKUP_INTEGRITY_CHECK=yes
