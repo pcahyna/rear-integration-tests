@@ -111,6 +111,7 @@ PRE_RECOVERY_SCRIPT=(\"mkdir /tmp/mnt;\" \"mount $OUTPUT_DISK ${OUTPUT_SUBVOL:+-
 POST_RECOVERY_SCRIPT=(\"ls -R /mnt/local/$(dirname $TMT_PLAN_DATA )/discover > /dev/console 2>&1;\" \"tail /var/lib/rear/restore/recover.backup.*.restore.log > /dev/ttyS0 2>&1;\" \"findmnt > /dev/ttyS0 2>&1;\" \"mount > /dev/ttyS0 2>&1;\" \"sleep 600;\")
 ISO_FILE_SIZE_LIMIT=4294967296
 POST_BACKUP_SCRIPT=( \"tar tzvf \\\$TMPDIR/isofs/backup/backup.tar.gz > \\\$HOME/tarlist.log 2>&1;\" \"cp \\\$TMPDIR/isofs/backup/backup.log \\\$HOME;\")
+BTRFS_SUBVOLUME_GENERIC_SETUP=(/dev/nvme0n1p4)
 BACKUP_INTEGRITY_CHECK=yes
 ISO_DEFAULT=automatic
 ISO_RECOVER_MODE=unattended' | tee $REAR_CONFIG" \
