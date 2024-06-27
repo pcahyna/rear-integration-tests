@@ -85,6 +85,7 @@ rlJournalStart
             rlRun "cat /proc/consoles"
             rlRun "cat /proc/cmdline"
             rlRun "stty -a -F /dev/ttyS0"
+            rlFileSubmit /etc/fstab
         rlPhaseEnd
 
         rlPhaseStartTest
